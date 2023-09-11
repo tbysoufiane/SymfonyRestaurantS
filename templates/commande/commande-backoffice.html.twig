@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+  <div class="w3-container w3-content w3-padding-64" style="max-width:1000px" id="dashboard">
+    <div class="w3-center">
+      <h1 class="w3-wide">TABLEAU DE BORD</h1>
+
+    </div>
+    
+    <h3 class="w3-wide w3-center">Commande Active</h3>
+    
+    {% if activeCommandes is not empty %}
+    {% for activeCommande in activeCommandes %}
+        <p><b>Commande du : {{ activeCommande.creationDate|date('d/m/Y à G:i:s') }}</b></p>
+        <table class="w3-table-all">
+            <tr>
+                <th>Utilisateur: 
+                    {% if activeCommande.client is not null %}
+                        {{ activeCommande.client.username }}
+                    {% else %}
+                        Inconnu
+                    {% endif %}
+                    </th>
+                <th>Prix total: 
+                    {% if activeCommande.totalPrice is defined %}
+                        {{ activeCommande.totalPrice }}€
+                    {% else %}
+                        ???
+                    {% endif %}
+                </th>
+                <th>Statut: {{ activeCommande.status }}</th>
+                <th>
+                    <a href="{{ path('commande_validate_backoffice', {'restaurantId' : activeCommande.restaurant.id}) }}">
+                        <button class="w3-button w3-blue-gray w3-margin-bottom">Valider Commande</button>
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('commande_delete_backoffice', {'commandeId' : activeCommande.id}) }}">
+                        <button class="w3-button w3-red w3-margin-bottom">Supprimer Commande</button>
+                    </a>
+                </th>
+            </tr>
+            <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix</th>
+                <th>Date d'ajout au panier</th>
+                <th>Supprimer la Reservation</th>
+            </tr>
+            {% for reservation in activeCommande.reservations %}
+            <tr>
+                <th>{{ reservation.dish.name }}</th>
+                <th>{{ reservation.quantity }}</th>
+                <th>{{ reservation.dish.price }}€</th>
+                <th>{{ reservation.creationDate|date('d/m/Y à G:i:s') }}</th>
+                <th>
+                    <a href="{{ path('reservation_delete_backoffice', {'dishId' : reservation.dish.id}) }}">
+                        <button class="w3-button w3-red w3-margin-bottom">Supprimer</button>
+                    </a>
+                </th>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endfor %}
+    {% else %}
+        <p><b>Vous n'avez pas de commande en cours</b></p>
+    {% endif %}
+    
+    
+    <h3 class="w3-wide w3-center">Commande Précédentes</h3>
+    {% for commande in commandes %}
+        <table class="w3-table-all" style="margin-top:50px;">
+            <tr>
+                <th>Utilisateur: 
+                    {% if commande.client is not null %}
+                        {{ commande.client.username }}
+                    {% else %}
+                        Inconnu
+                    {% endif %}
+                    </th>
+                <th>Commande lancée le : {{ commande.creationDate|date('d/m/Y à G:i:s') }}</th>
+                <th>Statut: {{ commande.status }}</th>
+                <th>Prix total: 
+                    {% if commande.totalPrice is defined %}
+                        {{ commande.totalPrice }}
+                    {% else %}
+                        ???
+                    {% endif %}
+                </th>
+            </tr>
+            <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix</th>
+                <th>Date d'ajout au panier</th>
+            </tr>
+            {% for reservation in commande.reservations %}
+            <tr>
+                <th>{{ reservation.dish.name }}</th>
+                <th>{{ reservation.quantity }}</th>
+                <th>{{ reservation.dish.price }}€</th>
+                <th>{{ reservation.creationDate|date('d/m/Y à G:i:s') }}</th>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endfor %}
+    
+    
+  </div>
+{% endblock %}

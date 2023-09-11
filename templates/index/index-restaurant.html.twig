@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Symfony RestaurantS{% endblock %}
+
+{% block body %}
+  <!-- Image header -->
+  <div class="w3-display-container w3-container">
+    <img src="{{ asset('assets/img/' ~ restaurant.getPicture('full')) }}" alt="Restaurant" style="width:100%">
+  </div>
+  
+  <div class="w3-container w3-text-grey" style="max-width:800px; margin:auto; margin-bottom: 50px;">
+      <h1 class="w3-wide">RESTAURANT: {{ restaurant.name }}</h1>
+      {% if is_granted('ROLE_RESTAURATEUR') %}
+        <a href="{{ path('restaurant_dashboard')}}" class="w3-button w3-black" role="button">Options</a>
+      {% endif %}
+      <hr>
+
+  <!-- Product grid -->
+    <ul class="w3-ul w3-border-white w3-white">
+      {% for dish in restaurant.dishes %}
+          <li class="w3-padding">
+              <p>
+                {{ dish.name }} -- Prix: <b>{{ dish.price }}</b>€
+                {% if (is_granted('ROLE_CLIENT')) and commande %}
+                -- Quantité: <b>{{ commande.dishQuantity(dish) }}</b>
+                {% endif %}
+                {% if is_granted('ROLE_CLIENT') %}
+                <a href="{{ path('reservation_delete', {'dishId' : dish.id}) }}" class="w3-button w3-gray" style="float:right;" role="button">
+                    Retirer
+                </a>
+                <a href="{{ path('reservation_add', {'dishId' : dish.id}) }}" class="w3-button w3-blue-gray" style="float:right;" role="button">
+                    Ajouter
+                </a>
+                {% endif %}
+              </p>
+          </li>
+      {% endfor %}
+    </ul>
+    {% if (is_granted('ROLE_CLIENT')) and commande %}
+        <p style="color: black;">Prix Total: <b>{{ commande.totalPrice }}</b>€</p>
+        <a href="{{ path('commande_validate', {'restaurantId' : restaurant.id}) }}">
+            <button class="w3-button w3-green" style="float:left; margin-top: 5px;">Valider la Commande</button>
+        </a>
+    {% endif %}
+  </div>
+{% endblock %}
