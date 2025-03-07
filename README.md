@@ -1,7 +1,15 @@
-Symfony RestaurantS
+# Symfony RestaurantS
 
-Un exemple d'application Symfony utilisant les feuilles de style W3.CSS, démontrant usage des différentes fonctionnalités du framework. 
+Un exemple d'application Symfony utilisant les feuilles de style W3.CSS, démontrant l'usage des différentes fonctionnalités du framework.
 
-**Cette application web commentée utilise W3.CSS et explore les différentes fonctionnalités de Symfony avec un code commenté.**
+Cette application web commentée utilise W3.CSS et explore les différentes fonctionnalités de Symfony avec un code commenté.
 
-Démonstration du routage via Contrôleur, routes dynamiques, utilisation avancée de la Vue avec Twig, aspect Modèle via l'emploi des Entités Doctrine et génération automatisée d'entrée grâce à des fichiers PHP fixtures, emploi des classe formulaires, exploration de la sécurité et de l'authentification avec plusieurs degrés de privilège. 
+## Fonctionnalités démontrées :
+
+- **Routage via Contrôleur** : Gestion des routes pour différentes actions.
+- **Routes dynamiques** : Création de routes avec des paramètres dynamiques.
+- **Utilisation avancée de la Vue avec Twig** : Templates et rendu dynamique.
+- **Aspect Modèle via les Entités Doctrine** : Gestion des données et interactions avec la base de données.
+- **Génération automatisée d'entrées avec des fichiers PHP fixtures** : Création de données de test.
+- **Emploi des classes formulaires** : Création et gestion de formulaires.
+- **Exploration de la sécurité et de l'authentification** : Gestion des utilisateurs et des rôles avec différents niveaux de privilèges.
